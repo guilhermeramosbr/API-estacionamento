@@ -40,3 +40,5 @@ const Acesso = database.define('acessos', {
 }, {
     timestamps: false
 });
+
+export { Acesso };
