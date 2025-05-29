@@ -1,1 +1,2 @@
-const RegistrarUsuario =() =>{}
+const registrarUsuario =() =>{}
+const autenticarUsuario =() =>{}
