@@ -1,4 +1,4 @@
-import { Usuario } from "../models/Usuario.js"
+import { Usuario } from "../Models/Usuario.js"
 import jwt from 'jsonwebtoken'
 
 const segredoJwt = process.env.SEGREDO_JWT
