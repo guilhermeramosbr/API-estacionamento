@@ -23,3 +23,5 @@ const Usuario = datatabase.define('usuarios', {
 }, {
     timestamps: false
 });
+
+export { Usuario };

@@ -32,3 +32,5 @@ const Veiculo = sequelize.define('veiculos', {
 }, {
     timestamps: false
 });
+
+export default Veiculo 
