@@ -2,7 +2,7 @@ import express from 'express'
 import { registrarVeiculo, listarVeiculos, excluirVeiculo, atualizarVeiculo } from '../controllers/veiculo.js'
 import { validarToken } from '../middlewares/usuario.js'
 
-const routerTarefa = express.Router()
+const routerVeiculo= express.Router()
 
 routerTarefa.post('/veiculo', validarToken, registrarVeiculo)
 routerTarefa.get('/veiculo', validarToken, listarVeiculos)
