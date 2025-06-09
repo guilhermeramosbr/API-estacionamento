@@ -1,52 +1,50 @@
-import { Usuario } from "../Models/Usuario.js"
-import jwt from 'jsonwebtoken'
+import { Usuario } from "../models/usuario.js";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
-const segredoJwt = process.env.SEGREDO_JWT
+const segredoJwt = process.env.JWT_SECRET;
 
 const registrarUsuario = async (req, res) => {
     try {
-        const { nome, email, senha } = req.body
+        const { nome, email, senha } = req.body;
         if (!nome || !email || !senha) {
-            return res.status(400).send({ mensagem: 'Dados incompletos' })
+            return res.status(400).send({ mensagem: 'Dados incompletos.' });
         }
-        const usuarioExistente = await Usuario.findOne({ where: { email } })
+        const usuarioExistente = await Usuario.findOne({ where: { email } });
         if (usuarioExistente) {
-            return res.status(400).send({ mensagem: 'Usuário já existe' })
+            return res.status(400).send({ mensagem: 'Usuário já existe.' });
         }
-        await Usuario.create({ nome, email, senha })
-        res.status(201).send({ mensagem: 'Usuario foi criado' })
+        const hashedPassword = await bcrypt.hash(senha, 10);
+        await Usuario.create({ nome, email, senha: hashedPassword });
+        res.status(201).send({ mensagem: 'Usuário criado com sucesso.' });
     } catch (erroDisparado) {
-        console.log(erroDisparado)
-        res.status(500).send({ mensagem: 'Ocorreu um erro inesperado' })
+        console.error(erroDisparado);
+        res.status(500).send({ mensagem: 'Ocorreu um erro inesperado.' });
     }
-}
+};
 
 const autenticarUsuario = async (req, res) => {
     try {
-        const { email, senha } = req.body
+        const { email, senha } = req.body;
         if (!email || !senha) {
-            return res.status(400).send({ mensagem: 'Dados incompletos' })
+            return res.status(400).send({ mensagem: 'Dados incompletos.' });
         }
-        const buscarUsuarioPorEmail = await Usuario.findOne({ where: { email } })
+        const buscarUsuarioPorEmail = await Usuario.findOne({ where: { email } });
         if (!buscarUsuarioPorEmail) {
-            return res.status(404).send({ mensagem: 'Usuário não encontrado' })
+            return res.status(404).send({ mensagem: 'Usuário não encontrado.' });
         }
-        const senhaQueEstaNoBanco = buscarUsuarioPorEmail.senha
-        const idUsuario = buscarUsuarioPorEmail.id
-        if (senhaQueEstaNoBanco === senha) {
-
-            const conteudoDoToken = { idUsuario }
- 
-            const token = jwt.sign(conteudoDoToken, segredoJwt, { expiresIn: '1d' })
-            return res.status(201).send({ token })
+        const senhaValida = await bcrypt.compare(senha, buscarUsuarioPorEmail.senha);
+        if (senhaValida) {
+            const conteudoDoToken = { idUsuario: buscarUsuarioPorEmail.id };
+            const token = jwt.sign(conteudoDoToken, segredoJwt, { expiresIn: '1d' });
+            return res.status(200).send({ token });
         } else {
-
-            return res.status(403).send({ mensagem: 'Credenciais inválidas' })
+            return res.status(401).send({ mensagem: 'Credenciais inválidas.' });
         }
     } catch (erro) {
-        console.log(erro)
-        res.status(500).send({ mensagem: 'Ocorreu um erro inesperado' })
+        console.error(erro);
+        res.status(500).send({ mensagem: 'Ocorreu um erro inesperado.' });
     }
-}
+};
 
-export { registrarUsuario, autenticarUsuario }
+export { registrarUsuario, autenticarUsuario };

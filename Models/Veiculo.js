@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+import { database } from '../database.js';
 
-const Veiculo = sequelize.define('veiculos', {
+const Veiculo = database.define('veiculos', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -20,7 +20,7 @@ const Veiculo = sequelize.define('veiculos', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    id_usuario: {
+    usuarioId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -28,9 +28,8 @@ const Veiculo = sequelize.define('veiculos', {
             key: 'id'
         }
     }
-    
 }, {
     timestamps: false
 });
 
-export default Veiculo 
+export { Veiculo };

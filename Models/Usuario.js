@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import datatabase from '../database.js';
+import { database } from '../database.js';
 
-const Usuario = datatabase.define('usuarios', {
+const Usuario = database.define('usuarios', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

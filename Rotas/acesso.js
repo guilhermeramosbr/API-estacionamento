@@ -1,7 +1,10 @@
-import express from 'express'
-import  { autenticarAcesso} from '../controllers/usuario.js'
-const router = express.Router()
+import express from 'express';
+import { registrarAcesso, autenticarAcesso } from '../controllers/acesso.js';
+import { validarToken } from '../middlewares/validarToken.js';
 
-router.post('/acesso', autenticarAcesso)
+const routerAcesso = express.Router();
 
-export { router }
+routerAcesso.post('/acesso', validarToken, registrarAcesso);
+routerAcesso.post('/acesso/authenticate', autenticarAcesso);
+
+export { routerAcesso };

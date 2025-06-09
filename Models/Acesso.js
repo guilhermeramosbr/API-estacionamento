@@ -1,6 +1,5 @@
-import { data } from 'react-router-dom';
-import { database } from '../database.js';
 import { DataTypes } from 'sequelize';
+import { database } from '../database.js';
 
 const Acesso = database.define('acessos', {
     id: {
@@ -16,7 +15,7 @@ const Acesso = database.define('acessos', {
         type: DataTypes.DATE,
         allowNull: true
     },
-    id_usuario: {
+    usuarioId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -24,7 +23,7 @@ const Acesso = database.define('acessos', {
             key: 'id'
         }
     },
-    id_veiculo: {
+    veiculoId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
