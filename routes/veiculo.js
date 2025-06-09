@@ -1,6 +1,6 @@
 import express from 'express';
 import { registrarVeiculo, listarVeiculos, excluirVeiculo, atualizarVeiculo } from '../controllers/veiculo.js';
-import { validarToken } from '../middlewares/validarToken.js';
+import { validarToken } from '../routes/middlewares/validarToken.js';
 
 const routerVeiculo = express.Router();
 

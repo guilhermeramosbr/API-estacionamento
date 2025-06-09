@@ -1,6 +1,6 @@
 import express from 'express';
 import { registrarAcesso, autenticarAcesso } from '../controllers/acesso.js';
-import { validarToken } from '../middlewares/validarToken.js';
+import { validarToken } from '../routes/middlewares/validarToken.js';
 
 const routerAcesso = express.Router();
 
