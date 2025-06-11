@@ -68,9 +68,12 @@ const atualizarVeiculo = async (req, res) => {
     try {
         const { id } = req.params;
         const { modelo, placa, ano, cor, usuarioId } = req.body;
-        const [updatedRows] = await Veiculo.update({ modelo, placa, ano, cor, usuarioId }, { where: { id } });
-        if (updatedRows === 0) {
-            return res.status(404).send({ mensagem: 'Veículo não encontrado ou nenhuma alteração foi feita.' });
+        const [atualizado] = await Veiculo.update(
+            { modelo, placa, ano, cor, usuarioId },
+            { where: { id } }
+        );
+        if (atualizado === 0) {
+            return res.status(404).send({ mensagem: 'Veículo não encontrado.' });
         }
         res.status(200).send({ mensagem: 'Veículo atualizado com sucesso.' });
     } catch (error) {

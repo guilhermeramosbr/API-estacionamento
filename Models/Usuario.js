@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { database } from '../database.js';
 
-const Usuario = database.define('usuarios', {
+const Usuario = database.define('usuario', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -21,6 +21,7 @@ const Usuario = database.define('usuarios', {
         allowNull: false
     }
 }, {
+    tableName: 'usuarios',
     timestamps: false
 });
 

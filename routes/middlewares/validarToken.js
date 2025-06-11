@@ -1,33 +1,20 @@
+// middlewares/validarToken.js
 import jwt from 'jsonwebtoken';
 
-const segredoJwt = process.env.JWT_SECRET;
+export function validarToken(req, res, next) {
+    const { authorization } = req.headers;
 
-const validarToken = (req, res, next) => {
-    try {
-        const { authorization } = req.headers;
-        if (!authorization) {
-            return res.status(401).send({ mensagem: 'Acesso negado: Token ausente.' });
-        }
-
-        const token = authorization.split(' ')[1];
-
-        if (!token) {
-            return res.status(401).send({ mensagem: 'Acesso negado: Token ausente.' });
-        }
-
-        const conteudoDoToken = jwt.verify(token, segredoJwt);
-        req.id_usuario = conteudoDoToken.idUsuario;
-        next();
-    } catch (erro) {
-        console.error(erro);
-        if (erro.name === 'JsonWebTokenError') {
-            return res.status(401).send({ mensagem: 'Acesso negado: Token inválido.' });
-        }
-        if (erro.name === 'TokenExpiredError') {
-            return res.status(401).send({ mensagem: 'Acesso negado: Token expirado.' });
-        }
-        res.status(500).send({ mensagem: 'Ocorreu um erro inesperado durante a validação do token.' });
+    if (!authorization) {
+        return res.status(401).json({ mensagem: 'Token não fornecido' });
     }
-};
 
-export { validarToken };
+    const token = authorization.split(' ')[1]; // Bearer <token>
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.id_usuario = decoded.id; // isso deve bater com o que foi inserido no token
+        next();
+    } catch (error) {
+        return res.status(401).json({ mensagem: 'Token inválido ou expirado' });
+    }
+}
