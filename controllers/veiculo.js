@@ -40,6 +40,31 @@ const autenticarCarro = async (req, res) => {
     }
 }
 
+// NOVA FUNÇÃO: Para buscar veículo por placa via GET request
+const buscarVeiculoPorPlacaGET = async (req, res) => {
+    try {
+        const placa = req.query.placa; // A placa vem como um query parameter
+        if (!placa) {
+            return res.status(400).json({ mensagem: 'Parâmetro de placa ausente.' });
+        }
+
+        const veiculo = await Veiculo.findOne({ where: { placa } });
+
+        if (!veiculo) {
+            // O frontend espera um array, retorne um array vazio se não encontrado
+            return res.status(200).json([]); 
+        }
+
+        // Retorne o veículo dentro de um array, pois o frontend espera .data[0]
+        return res.status(200).json([veiculo]); 
+
+    } catch (error) {
+        console.error('Erro ao buscar veículo por placa:', error);
+        res.status(500).json({ mensagem: 'Erro interno do servidor ao buscar veículo.' });
+    }
+};
+
+
 const listarVeiculos = async (req, res) => {
     try {
         const veiculos = await Veiculo.findAll();
@@ -82,4 +107,11 @@ const atualizarVeiculo = async (req, res) => {
     }
 };
 
-export { registrarVeiculo, autenticarCarro, listarVeiculos, excluirVeiculo, atualizarVeiculo };
+export { 
+    registrarVeiculo, 
+    autenticarCarro, 
+    listarVeiculos, 
+    excluirVeiculo, 
+    atualizarVeiculo,
+    buscarVeiculoPorPlacaGET // Exportando a nova função
+};

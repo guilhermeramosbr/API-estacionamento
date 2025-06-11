@@ -60,12 +60,16 @@ const listarAcessos = async (req, res) => {
 
 const listarSaidas = async (req, res) => {
     try {
+        // Certifique-se de que Acesso também está importado/definido
         const acessos = await Acesso.findAll({ where: { data_saida: { [Op.ne]: null } } });
         if (!acessos.length) {
-            return res.status(404).json({ mensagem: 'Nenhuma saída registrada.' });
+            // Um 200 OK com array vazio ou mensagem de "não encontrado" é melhor aqui
+            // do que um 404, pois a rota foi encontrada, mas não há dados.
+            return res.status(200).json([]); // Retorna array vazio em vez de 404
         }
         res.status(200).json(acessos);
-    } catch {
+    } catch (error) { // Adicione 'error' para logar o erro real
+        console.error('Erro no listarSaidas:', error); // Log do erro para depuração
         res.status(500).json({ mensagem: 'Erro inesperado.' });
     }
 };

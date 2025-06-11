@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:5173' }));
 
-// Usando o prefixo /api
+
 app.use('/api', routerAcesso);
 app.use('/api', routerUsuario);
 app.use('/api', routerVeiculo);
