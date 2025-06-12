@@ -19,6 +19,10 @@ const Usuario = database.define('usuario', {
     senha: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    documento: { // <-- Adicione este campo
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     tableName: 'usuarios',

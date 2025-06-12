@@ -1,8 +1,10 @@
+// routes/usuario.js
 import express from 'express';
-import { registrarUsuario, autenticarUsuario } from '../controllers/usuario.js';
+import { listarUsuarios, registrarUsuario, autenticarUsuario } from '../controllers/usuario.js';
 
 const routerUsuario = express.Router();
 
+routerUsuario.get('/usuarios', listarUsuarios);
 routerUsuario.post('/usuario', registrarUsuario);
 routerUsuario.post('/login', autenticarUsuario);
 

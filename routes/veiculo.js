@@ -8,8 +8,6 @@ routerVeiculo.post('/veiculo', registrarVeiculo);
 routerVeiculo.get('/veiculos', listarVeiculos);
 routerVeiculo.delete('/veiculo/:id', excluirVeiculo);
 routerVeiculo.put('/veiculo/:id', atualizarVeiculo);
-
-// NOVA ROTA: Para buscar veículo por placa via GET (singular)
 routerVeiculo.get('/veiculo', buscarVeiculoPorPlacaGET); // <--- Adicione esta linha!
 
 export { routerVeiculo };

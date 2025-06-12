@@ -5,15 +5,15 @@ const segredoJwt = process.env.JWT_SECRET;
 
 const registrarVeiculo = async (req, res) => {
     try {
-        const { modelo, placa, ano, cor, usuarioId } = req.body;
-        if (!modelo || !placa || !ano || !cor || !usuarioId) {
+        const { modelo, placa, usuarioId } = req.body;
+        if (!modelo || !placa || !usuarioId) {
             return res.status(400).send({ mensagem: 'Dados incompletos.' });
         }
         const veiculoExistente = await Veiculo.findOne({ where: { placa } });
         if (veiculoExistente) {
             return res.status(400).send({ mensagem: 'Veículo já cadastrado.' });
         }
-        await Veiculo.create({ modelo, placa, ano, cor, usuarioId });
+        await Veiculo.create({ modelo, placa, usuarioId });
         res.status(201).send({ mensagem: 'Veículo cadastrado com sucesso.' });
     } catch (erroDisparado) {
         console.error(erroDisparado);
@@ -66,13 +66,12 @@ const buscarVeiculoPorPlacaGET = async (req, res) => {
 
 
 const listarVeiculos = async (req, res) => {
-    try {
-        const veiculos = await Veiculo.findAll();
-        res.status(200).send(veiculos);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ mensagem: 'Erro ao listar veículos.' });
-    }
+  try {
+    const veiculos = await Veiculo.findAll();
+    res.json(veiculos);
+  } catch (error) {
+    res.status(500).json({ mensagem: 'Erro ao buscar veículos.' });
+  }
 };
 
 const excluirVeiculo = async (req, res) => {
@@ -92,9 +91,9 @@ const excluirVeiculo = async (req, res) => {
 const atualizarVeiculo = async (req, res) => {
     try {
         const { id } = req.params;
-        const { modelo, placa, ano, cor, usuarioId } = req.body;
+        const { modelo, placa, usuarioId } = req.body;
         const [atualizado] = await Veiculo.update(
-            { modelo, placa, ano, cor, usuarioId },
+            { modelo, placa, usuarioId },
             { where: { id } }
         );
         if (atualizado === 0) {
@@ -113,5 +112,5 @@ export {
     listarVeiculos, 
     excluirVeiculo, 
     atualizarVeiculo,
-    buscarVeiculoPorPlacaGET // Exportando a nova função
+    buscarVeiculoPorPlacaGET
 };

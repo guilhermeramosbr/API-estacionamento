@@ -17,14 +17,6 @@ const Veiculo = database.define('veiculo', {
         allowNull: false,
         unique: true
     },
-    ano: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    cor: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     usuarioId: {
         type: DataTypes.INTEGER,
         allowNull: false,
