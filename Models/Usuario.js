@@ -20,7 +20,7 @@ const Usuario = database.define('usuario', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    documento: { // <-- Adicione este campo
+    documento: {
         type: DataTypes.STRING,
         allowNull: true
     }

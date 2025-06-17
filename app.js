@@ -19,7 +19,7 @@ app.use('/api', routerAcesso);
 app.use('/api', routerUsuario);
 app.use('/api', routerVeiculo);
 
-await database.sync();
+// await database.sync();
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

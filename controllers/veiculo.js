@@ -5,19 +5,15 @@ const segredoJwt = process.env.JWT_SECRET;
 
 const registrarVeiculo = async (req, res) => {
     try {
-        const { modelo, placa, usuarioId } = req.body;
-        if (!modelo || !placa || !usuarioId) {
+        const { modelo, placa, cor, usuarioId } = req.body;
+        if (!modelo || !placa || !cor || !usuarioId) {
             return res.status(400).send({ mensagem: 'Dados incompletos.' });
         }
-        const veiculoExistente = await Veiculo.findOne({ where: { placa } });
-        if (veiculoExistente) {
-            return res.status(400).send({ mensagem: 'Veículo já cadastrado.' });
-        }
-        await Veiculo.create({ modelo, placa, usuarioId });
-        res.status(201).send({ mensagem: 'Veículo cadastrado com sucesso.' });
-    } catch (erroDisparado) {
-        console.error(erroDisparado);
-        res.status(500).send({ mensagem: 'Ocorreu um erro inesperado.' });
+        await Veiculo.create({ modelo, placa, cor, usuarioId });
+        res.status(201).send({ mensagem: 'Veículo registrado com sucesso.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ mensagem: 'Erro ao registrar veículo.' });
     }
 }
 
