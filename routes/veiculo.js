@@ -1,13 +1,13 @@
 import express from 'express';
-// Importe a nova função de controlador
 import { registrarVeiculo, listarVeiculos, excluirVeiculo, atualizarVeiculo, buscarVeiculoPorPlacaGET } from '../controllers/veiculo.js';
+import { validarToken } from './middlewares/validarToken.js';
 
 const routerVeiculo = express.Router();
 
-routerVeiculo.post('/veiculo', registrarVeiculo);
-routerVeiculo.get('/veiculos', listarVeiculos);
-routerVeiculo.delete('/veiculo/:id', excluirVeiculo);
-routerVeiculo.put('/veiculo/:id', atualizarVeiculo);
-routerVeiculo.get('/veiculo', buscarVeiculoPorPlacaGET); // <--- Adicione esta linha!
+routerVeiculo.post('/veiculo', validarToken, registrarVeiculo);
+routerVeiculo.get('/veiculos', validarToken, listarVeiculos);
+routerVeiculo.delete('/veiculo/:id', validarToken, excluirVeiculo);
+routerVeiculo.put('/veiculo/:id', validarToken, atualizarVeiculo);
+routerVeiculo.get('/veiculo/placa', validarToken, buscarVeiculoPorPlacaGET);
 
 export { routerVeiculo };
